@@ -1,0 +1,38 @@
+{
+  "name": "sendgrid-adapter",
+  "description": "Sendgrid adapter for ",
+  "version": "0.1.1",
+  "keywords": [
+    "sendgrid",
+    "api",
+    "mailer",
+    "adapter"
+  ],
+  "bugs": {
+    "url": "https://github.com/DigitalRockers/-sendgrid-adapter/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Gianluca Pengo",
+    "url": "https://github.com/gian788/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DigitalRockers/-sendgrid-adapter"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "dependencies": {
+    "lodash": "~4.7.0",
+    "sendgrid": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "main": "./index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  }
+}
