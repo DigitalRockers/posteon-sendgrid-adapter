@@ -1,7 +1,7 @@
 {
   "name": "posteon-sendgrid-adapter",
   "description": "Sendgrid adapter for ",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "sendgrid",
     "api",
