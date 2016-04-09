@@ -1,5 +1,5 @@
 {
-  "name": "sendgrid-adapter",
+  "name": "posteon-sendgrid-adapter",
   "description": "Sendgrid adapter for ",
   "version": "0.1.1",
   "keywords": [
@@ -9,16 +9,13 @@
     "adapter"
   ],
   "bugs": {
-    "url": "https://github.com/DigitalRockers/-sendgrid-adapter/issues"
+    "url": "https://github.com/DigitalRockers/posteon-sendgrid-adapter/issues"
   },
   "license": "MIT",
-  "author": {
-    "name": "Gianluca Pengo",
-    "url": "https://github.com/gian788/"
-  },
+  "author": "Gianluca Pengo (https://github.com/gian788/)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DigitalRockers/-sendgrid-adapter"
+    "url": "git+https://github.com/DigitalRockers/posteon-sendgrid-adapter.git"
   },
   "engines": {
     "node": ">=0.10"
@@ -34,5 +31,6 @@
   "main": "./index.js",
   "scripts": {
     "test": "mocha test.js"
-  }
+  },
+  "homepage": "https://github.com/DigitalRockers/-sendgrid-adapter#readme"
 }
