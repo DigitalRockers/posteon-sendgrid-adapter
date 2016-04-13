@@ -20,6 +20,12 @@ describe('Sendgrid adapter test', function() {
 	      html: '<h1>Test Sendgrid adapter</h1><p>Test body</p>',
 	      //text: 'text',
 	    	//attachments: 'attachments',
+				/*attachments: [{
+					name: 'test.pdf',
+					path: __dirname + '/test.pdf',
+					//content: require('fs').readFileSync(__dirname + '/test.pdf'),
+					type: 'application/pdf',
+				}],*/
 	      //images: 'images',
 	    	//tags: 'tags',
 	      //headers: 'headers',

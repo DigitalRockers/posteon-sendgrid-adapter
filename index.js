@@ -85,9 +85,10 @@ var optionsBuilder = function (options) {
   if(options.attachments) {
     mapped.files = _.map(options.attachments, function (attachment) {
         return {
-          name: attachment.name,
+          filename: attachment.name,
           content: attachment.content,
           contentType: attachment.type,
+          path: attachment.path
           //cid
           //url
         };
@@ -101,21 +102,23 @@ var optionsBuilder = function (options) {
   return mapped;
 };
 
-var handleResponse = function (err, responses) {
-  if(err) return callback(err);
 
-  switch (responses) {
-    case 'success':
-      callback(null, {status: 'success'});
-    break;
-    default:
-
-  };
-};
 
 exports.send = function(credential, options, callback){
   var sendgridClient = sendgrid(credential.apiKey);
   var sendgridConfig = _.extend(baseOptions, optionsBuilder(options));
+
+  var handleResponse = function (err, responses) {
+    if(err) return callback(err);
+
+    switch (responses.message) {
+      case 'success':
+        callback(null, {status: 'success'});
+      break;
+      default:
+        callback(responses);
+    };
+  };
 
   var email = new sendgridClient.Email(sendgridConfig);
   for(var i = 0; i < options.to.length; i++) {
