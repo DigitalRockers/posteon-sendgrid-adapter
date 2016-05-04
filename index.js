@@ -1,9 +1,6 @@
 var	_ = require('lodash');
 var sendgrid  = require('sendgrid');
 
-var baseOptions = {
-
-};
 
 var fieldMapping = {
   subject: 'subject',
@@ -63,6 +60,67 @@ var getRecipientString = function (recipient) {
   return recipient.name ? recipient.name + ' <' + recipient.email + '>' : recipient.email;
 };
 
+/**
+ * Serialize object with underscore notation
+ */
+var serilizeVars = function(row, parent, ret){
+  if (!row) {
+    return {};
+  }
+  if (!ret) {
+    ret = {};
+  }
+	if (!parent) {
+		parent = '';
+	} else {
+		parent = parent + '_';
+  }
+
+	for (var i in row) {
+		if (typeof(row[i]) === 'object') {
+			if (row[i]._bsontype && row[i]._bsontype === 'ObjectID') {
+        ret[parent + i] = row[i].toString();
+			} else {
+				serilizeVars(row[i], parent + i, ret);
+      }
+		} else{
+			ret[parent + i] = row[i];
+		}
+	}
+
+	return ret;
+}
+
+var recipientDataToSub = function (options) {
+  var to = options.to;
+  var serialized = [];
+  var subs = {};
+  var startMarker = '{{';
+  var closeMarker = '}}';
+
+  for (var i = 0; i < to.length; i++) {
+    serialized.push(serilizeVars(to[i].data));
+  }
+  for (var i = 0; i < serialized.length; i++) {
+    for (var j in serialized[i]) {
+      subs[j] = [];
+    }
+  }
+
+  for(var i = 0; i < serialized.length; i++) {
+    for(var j in subs) {
+      subs[j].push(serialized[i][j] || '');
+    }
+  }
+
+  var subsVars = {};
+  for(var i in subs) {
+    subsVars[startMarker + i + closeMarker] = subs[i];
+  }
+
+  return subsVars;
+}
+
 var optionsBuilder = function (options) {
   var mapped = {};
 
@@ -106,7 +164,7 @@ var optionsBuilder = function (options) {
 
 exports.send = function(credential, options, callback){
   var sendgridClient = sendgrid(credential.apiKey);
-  var sendgridConfig = _.extend(baseOptions, optionsBuilder(options));
+  var sendgridConfig = _.extend({}, optionsBuilder(options));
 
   var handleResponse = function (err, responses) {
     if(err) return callback(err);
@@ -124,6 +182,7 @@ exports.send = function(credential, options, callback){
   for(var i = 0; i < options.to.length; i++) {
     email.addSmtpapiTo(getRecipientString(options.to[i]));
   }
+  email.setSubstitutions(recipientDataToSub(options));
   sendgridClient.send(email, handleResponse);
 };
 
