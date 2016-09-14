@@ -183,6 +183,11 @@ exports.send = function(credential, options, callback){
     email.addSmtpapiTo(getRecipientString(options.to[i]));
   }
   email.setSubstitutions(recipientDataToSub(options));
+
+  if (sendgridConfig.category) {
+    email.setCategories(sendgridConfig.category)
+  }
+
   sendgridClient.send(email, handleResponse);
 };
 
